@@ -292,6 +292,7 @@ class Runtime {
         localModule.exports = require(modulePath);
       } else {
         this._execModule(localModule, options);
+        moduleRegistry[modulePath] = localModule;
       }
     }
     return moduleRegistry[modulePath].exports;
