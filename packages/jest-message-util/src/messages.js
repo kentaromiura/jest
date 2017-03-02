@@ -159,6 +159,15 @@ const formatResultsErrors = (
   config: Config,
   testPath: ?Path,
 ): ?string => {
+
+  if (config.htmlChalk) {
+    const chalk = require('chalk');
+    Object.keys(chalk.styles).forEach(style => {
+      chalk.styles[style].open = '<span class="chalk-' + style + '">';
+      chalk.styles[style].close = '</span>'
+    });
+  }
+
   const failedResults = testResults.reduce(
     (errors, result) => {
       result.failureMessages.forEach(content => errors.push({content, result}));

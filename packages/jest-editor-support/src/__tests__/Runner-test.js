@@ -56,6 +56,7 @@ describe('events', () => {
   });
 
   it('expects JSON from stdout, then it passes the JSON', () => {
+    expect('foo').toBe('bar');
     const data = jest.fn();
     runner.on('executableJSON', data);
 

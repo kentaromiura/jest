@@ -81,6 +81,10 @@ function setFromArgv(config, argv) {
     config.testResultsProcessor = argv.testResultsProcessor;
   }
 
+  if (argv.htmlChalk) {
+    config.htmlChalk = true;
+  }
+
   config.noStackTrace = argv.noStackTrace;
 
   return config;

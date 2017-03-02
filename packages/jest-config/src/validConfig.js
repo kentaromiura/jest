@@ -43,6 +43,7 @@ module.exports = ({
   haste: {
     providesModuleNodeModules: ['react', 'react-native'],
   },
+  htmlChalk: false,
   logHeapUsage: true,
   logTransformErrors: true,
   moduleDirectories: ['node_modules'],

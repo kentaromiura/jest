@@ -60,6 +60,7 @@ class Jasmine2Reporter {
   }
 
   specDone(result: SpecResult): void {
+    // console.log('spec done\n\n', result, '\n\n')
     this._testResults.push(
       this._extractSpecResults(result, this._currentSuites.slice(0)),
     );

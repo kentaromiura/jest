@@ -34,7 +34,15 @@ function run(argv?: Object, root?: Path) {
     process.on('exit', () => process.exit(1));
     return;
   }
-
+/*
+  if (argv.htmlChalk) {
+    const chalk = require('chalk');
+    Object.keys(chalk.styles).forEach(style => {
+      chalk.styles[style].open = '<span class="chalk-' + style + '">';
+      chalk.styles[style].close = '</span>'
+    });
+  }
+  */
   if (!root) {
     root = getPackageRoot();
   }

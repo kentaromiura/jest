@@ -134,6 +134,10 @@ const options = {
       'adequately cleaned up.',
     type: 'boolean',
   },
+  htmlChalk: {
+    description: 'Prints html spans instead of ansi code',
+    type: 'boolean',
+  },
   json: {
     description:
       'Prints the test results in JSON. This mode will send all ' +

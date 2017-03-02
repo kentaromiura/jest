@@ -14,6 +14,7 @@ import type {Config, Path} from 'types/Config';
 
 const {getState, setState} = require('jest-matchers');
 const {initializeSnapshotState, addSerializer} = require('jest-snapshot');
+
 const {
   EXPECTED_COLOR,
   RECEIVED_COLOR,
@@ -66,6 +67,7 @@ const addAssertionErrors = result => {
 
 const patchJasmine = () => {
   global.jasmine.Spec = (realSpec => {
+
     const Spec = function Spec(attr) {
       const resultCallback = attr.resultCallback;
       attr.resultCallback = function(result) {
@@ -97,6 +99,13 @@ type Options = {
 };
 
 module.exports = ({testPath, config}: Options) => {
+  if (config.htmlChalk) {
+    const chalk = require('chalk')
+    Object.keys(chalk.styles).forEach(style => {
+      chalk.styles[style].open = '<span class="chalk-' + style + '">';
+      chalk.styles[style].close = '</span>'
+    });
+  }
   // Jest tests snapshotSerializers in order preceding built-in serializers.
   // Therefore, add in reverse because the last added is the first tested.
   config.snapshotSerializers.concat().reverse().forEach(path => {

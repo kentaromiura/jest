@@ -11,6 +11,15 @@
 'use strict';
 
 const chalk = require('chalk');
+
+if (process.argv.indexOf('--htmlChalk') != -1) {
+  Object.keys(chalk.styles).forEach(style => {
+    chalk.styles[style].open = '<span class="chalk-' + style + '">';
+    chalk.styles[style].close = '</span>'
+  });
+}
+
+
 const prettyFormat = require('pretty-format');
 const AsymmetricMatcherPlugin = require('pretty-format/build/plugins/AsymmetricMatcher');
 

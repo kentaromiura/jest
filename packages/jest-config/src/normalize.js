@@ -332,6 +332,7 @@ function normalize(config: InitialConfig, argv: Object = {}) {
           );
         }
         break;
+      case 'htmlChalk':
       case 'automock':
       case 'bail':
       case 'browser':

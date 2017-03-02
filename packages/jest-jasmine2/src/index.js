@@ -36,7 +36,6 @@ function jasmine2(
 ): Promise<TestResult> {
   const reporter = new JasmineReporter(config, environment, testPath);
   environment.runScript(jasmineScript);
-
   const requireJasmine = environment.global.jasmineRequire;
   const jasmine = requireJasmine.core(requireJasmine);
 
@@ -95,7 +94,25 @@ function jasmine2(
   env.execute();
   return reporter
     .getResults()
-    .then(results => addSnapshotData(results, config, snapshotState));
+    .then(results => {
+      results.testResults.forEach(result => {
+        /*
+        console.log('\n\n\n');
+        console.log(result);
+        console.log('\n')
+        */
+        result.failureMessages = result.failureMessages.map(
+          failureMessage => {
+            const {message, stack} = separateMessageFromStack(failureMessage);
+            return message + formatStackTrace(
+              stack, config, results.testFilePath,
+            );
+          }
+        );
+      });
+      return addSnapshotData(results, config, snapshotState);
+    });
+
 }
 
 const addSnapshotData = (results, config, snapshotState) => {
