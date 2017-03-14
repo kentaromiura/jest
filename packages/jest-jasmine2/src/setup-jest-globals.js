@@ -30,15 +30,18 @@ const addSuppressedErrors = result => {
   if (suppressedErrors.length) {
     result.status = 'failed';
 
-    result.failedExpectations = suppressedErrors.map(error => ({
-      actual: '',
-      // passing error for custom test reporters
-      error,
-      expected: '',
-      message: error.message,
-      passed: false,
-      stack: error.stack,
-    }));
+    result.failedExpectations = suppressedErrors.map(error => {
+      const stack = error.stack;
+      return {
+        actual: '',
+        // passing error for custom test reporters
+        error,
+        expected: '',
+        message: error.message,
+        passed: false,
+        stack: stack.message,
+      }
+    });
   }
 };
 

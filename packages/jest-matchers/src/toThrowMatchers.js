@@ -175,7 +175,8 @@ const toThrowMatchingError = (
 
 const printActualErrorMessage = error => {
   if (error) {
-    const {message, stack} = separateMessageFromStack(error.stack);
+    const errorStack = error.stack;
+    const {message, stack} = separateMessageFromStack(errorStack.message);
     return `Instead, it threw:\n` +
       RECEIVED_COLOR(
         '  ' +

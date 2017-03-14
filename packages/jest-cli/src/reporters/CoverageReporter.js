@@ -89,12 +89,13 @@ class CoverageReporter extends BaseReporter {
       reporter.write(map, sourceFinder && {sourceFinder});
       aggregatedResults.coverageMap = map;
     } catch (e) {
+      const stack = e.stack;
       console.error(
         chalk.red(
           `
         Failed to write coverage reports:
         ERROR: ${e.toString()}
-        STACK: ${e.stack}
+        STACK: ${stack.message}
       `,
         ),
       );
@@ -130,12 +131,13 @@ class CoverageReporter extends BaseReporter {
               }
             }
           } catch (e) {
+            const stack = e.stack;
             console.error(
               chalk.red(
                 `
               Failed to collect coverage from ${filename}
               ERROR: ${e}
-              STACK: ${e.stack}
+              STACK: ${stack.message}
             `,
               ),
             );

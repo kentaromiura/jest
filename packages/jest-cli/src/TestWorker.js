@@ -42,7 +42,7 @@ const formatError = (error: string | Error): SerializableError => {
       type: 'Error',
     };
   }
-
+  // Stack trace here is not prepared.
   return {
     message: error.message,
     stack: error.stack,

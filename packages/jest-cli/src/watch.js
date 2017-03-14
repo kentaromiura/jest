@@ -126,7 +126,10 @@ const watch = (
 
         testNamePatternPrompt.updateCachedTestResults(results.testResults);
       },
-    ).then(() => {}, error => console.error(chalk.red(error.stack)));
+    ).then(() => {}, error => {
+      const stack = error.stack;
+      console.error(chalk.red(stack.message))
+    });
   };
 
   const onKeypress = (key: string) => {

@@ -56,8 +56,10 @@ const formatExecError = (
     message = '';
     stack = error;
   }
-
-  const separated = separateMessageFromStack(stack || '');
+  if (stack == null) {
+    stack = '';
+  }
+  const separated = separateMessageFromStack(stack);
   stack = separated.stack;
 
   if (separated.message.indexOf(trim(message)) !== -1) {

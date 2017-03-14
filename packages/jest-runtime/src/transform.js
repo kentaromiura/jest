@@ -371,7 +371,9 @@ const transformAndBuildScript = (
     };
   } catch (e) {
     if (e.codeFrame) {
-      e.stack = e.codeFrame;
+      e.stack = {
+        message: e.codeFrame
+      };
     }
 
     if (config.logTransformErrors) {

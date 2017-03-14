@@ -708,7 +708,8 @@ exports.errors = function(input) {
   try {
     this.parse(input);
   } catch (e) {
-    return e.stack;
+    var stack = e.stack;
+    return stack.message;
   }
 };
 exports.parse = function() {

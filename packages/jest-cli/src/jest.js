@@ -107,7 +107,8 @@ const runCLI = (
     .catch(error => {
       clearLine(process.stderr);
       clearLine(process.stdout);
-      console.error(chalk.red(error.stack));
+      const stack = error.stack;
+      console.error(chalk.red(stack.message));
       process.exit(1);
     });
 };

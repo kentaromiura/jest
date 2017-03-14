@@ -320,6 +320,7 @@ class FakeTimers {
 
   _checkFakeTimers() {
     if (this._global.setTimeout !== this._fakeTimerAPIs.setTimeout) {
+      const stack = new Error().stack;
       this._global.console.warn(
         `A function to advance timers was called but the timers API is not ` +
           `mocked with fake timers. Call \`jest.useFakeTimers()\` in this ` +
@@ -329,7 +330,7 @@ class FakeTimers {
           `default configuration change in Jest 15.\n\n` +
           `Release Blog Post: https://facebook.github.io/jest/blog/2016/09/01/jest-15.html\n` +
           `Stack Trace:\n` +
-          formatStackTrace(new Error().stack, this._config),
+          formatStackTrace(stack.message, this._config),
       );
     }
   }

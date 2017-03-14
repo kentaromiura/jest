@@ -17,11 +17,24 @@ const toDiscard = (filename: string, index: number): boolean => {
   return index !== 0 && FILTER_NOISE.test(filename);
 };
 
+class TestStacktrace extends String {
+  message: string;
+  error: Error;
+  stack: Array<CallSite>;
+  constructor(message, error, stack) {
+    super(message);
+    this.message = message;
+    this.error = error;
+    this.stack = stack;
+  }
+}
+
 const setPrepareStackTrace = (Error: Class<Error>) => {
   Error.prepareStackTrace = (error, stacktrace) => {
     const filteredStacktrace = stacktrace.filter(
       (callsite, index) => !toDiscard(callsite.getFileName() || '', index)
-    ).map(callsite => {
+    );
+    const atArray = filteredStacktrace.map(callsite => {
       const functionName = callsite.getFunctionName() || '<anonymous>';
       const filename = callsite.getFileName() || '';
       const line = callsite.getLineNumber() || '0';
@@ -29,9 +42,9 @@ const setPrepareStackTrace = (Error: Class<Error>) => {
       return `at ${functionName} (${filename}:${line}:${column})`;
     });
     const message = (
-      `${error.name}: ${error.message}\n${filteredStacktrace.join('\n')}`
+      `${error.name}: ${error.message}\n${atArray.join('\n')}`
     );
-    return message;
+    return new TestStacktrace(message, error, filteredStacktrace);
   };
 };
 

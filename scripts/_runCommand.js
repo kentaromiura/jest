@@ -34,7 +34,7 @@ module.exports = function runCommand(cmd, args, cwd) {
   if (result.error || result.status !== 0) {
     const message = 'Error running command.';
     const error = new Error(message);
-    error.stack = message;
+    error.stack = {message};
     throw error;
   }
 };

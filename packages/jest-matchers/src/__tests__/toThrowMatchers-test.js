@@ -18,9 +18,11 @@ class Error {
   constructor(message) {
     this.message = message;
     this.name = 'Error';
-    this.stack = 'Error\n' +
+    this.stack = {
+      message: 'Error\n' +
       '  at jestExpect' +
-      ' (packages/jest-matchers/src/__tests__/toThrowMatchers-test.js:24:74)';
+      ' (packages/jest-matchers/src/__tests__/toThrowMatchers-test.js:24:74)'
+    };
   }
 }
 

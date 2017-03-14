@@ -24,7 +24,7 @@ describe('Runtime', () => {
           runtime.requireModule(runtime.__mockRootPath, './throwing.js');
         } catch (err) {
           hasThrown = true;
-          expect(err.stack).toMatch(/^Error: throwing\s+at Object.<anonymous>/);
+          expect(err.stack.message).toMatch(/^Error: throwing\s+at Object.<anonymous>/);
         }
         expect(hasThrown).toBe(true);
       }));
@@ -43,11 +43,11 @@ describe('Runtime', () => {
           hasThrown = true;
           /* eslint-disable max-len */
           if (process.platform === 'win32') {
-            expect(err.stack).toMatch(
+            expect(err.stack.message).toMatch(
               /^Error: throwing fn\s+at sum.+\\__tests__\\test_root\\throwing-fn.js:12:9/,
             );
           } else {
-            expect(err.stack).toMatch(
+            expect(err.stack.message).toMatch(
               /^Error: throwing fn\s+at sum.+\/__tests__\/test_root\/throwing-fn.js:12:9/,
             );
           }

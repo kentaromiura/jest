@@ -33,10 +33,10 @@ const formatError = (error: string | Error): SerializableError => {
       type: 'Error',
     };
   }
-
+  const stack = error.stack;
   return {
     message: error.message,
-    stack: error.stack,
+    stack: stack.message,
     type: 'Error',
   };
 };

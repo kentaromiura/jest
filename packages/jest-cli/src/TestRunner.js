@@ -180,9 +180,11 @@ class TestRunner {
       }
       if (testResult.testResults.length === 0) {
         const message = 'Your test suite must contain at least one test.';
+
+        const stack = new Error(message).stack;
         onFailure(testPath, {
           message,
-          stack: new Error(message).stack,
+          stack: stack.message,
         });
         return;
       }
