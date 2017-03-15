@@ -12,6 +12,7 @@
 'use strict';
 
 import type {MatchersObject} from 'types/Matchers';
+import type {TestStacktrace} from 'types/TestStacktrace';
 
 const {
   escapeStrForRegex,
@@ -175,12 +176,13 @@ const toThrowMatchingError = (
 
 const printActualErrorMessage = error => {
   if (error) {
-    const errorStack = error.stack;
-    const {message, stack} = separateMessageFromStack(errorStack.message);
+    const errorStack: TestStacktrace = error.stack;
+    //const {message, stack} = separateMessageFromStack(errorStack.message);
+    const {description, stack} = errorStack;
     return `Instead, it threw:\n` +
       RECEIVED_COLOR(
         '  ' +
-          highlightTrailingWhitespace(message, RECEIVED_BG) +
+          highlightTrailingWhitespace(description, RECEIVED_BG) +
           formatStackTrace(stack, {
             noStackTrace: false,
             rootDir: process.cwd(),

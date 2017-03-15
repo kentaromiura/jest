@@ -14,6 +14,7 @@ import type {
   SerializableError as TestError,
   TestResult,
 } from 'types/TestResult';
+import type {TestStacktrace} from 'types/TestStacktrace';
 import type {Config, Path} from 'types/Config';
 import type {HasteContext, HasteFS} from 'types/HasteMap';
 import type {RunnerContext} from 'types/Reporters';
@@ -181,7 +182,7 @@ class TestRunner {
       if (testResult.testResults.length === 0) {
         const message = 'Your test suite must contain at least one test.';
 
-        const stack = new Error(message).stack;
+        const stack: TestStacktrace = new Error(message).stack;
         onFailure(testPath, {
           message,
           stack: stack.message,

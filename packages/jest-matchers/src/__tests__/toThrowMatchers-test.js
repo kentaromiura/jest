@@ -19,6 +19,13 @@ class Error {
     this.message = message;
     this.name = 'Error';
     this.stack = {
+      description: 'Error      \n', //TODO: Remove this and fix broken snapshots.
+      stack: [{
+        getFunctionName: () => 'jestExpect',
+        getFileName: () => 'packages/jest-matchers/src/__tests__/toThrowMatchers-test.js',
+        getLineNumber: () => '24',
+        getColumnNumber: () => '74'
+      }],
       message: 'Error\n' +
       '  at jestExpect' +
       ' (packages/jest-matchers/src/__tests__/toThrowMatchers-test.js:24:74)'

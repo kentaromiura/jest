@@ -112,21 +112,64 @@ type StackTraceOptions = {
   testMatch: Array<Glob>,
 };
 
-const formatStackTrace = (
-  stack,
+const formatLegacyStackTrace = (
+  stack: string,
   config: StackTraceOptions,
   testPath: ?Path,
 ) => {
-  const lines = stack.split(/\n/);
   const relativeTestPath = testPath
     ? path.relative(config.rootDir, testPath)
     : null;
-
+  const lines = stack.split(/\n/);
   return lines
     .map(trimPaths)
     .map(formatPaths.bind(null, config, relativeTestPath))
     .map(line => STACK_INDENT + line)
     .join('\n');
+}
+
+const formatStackTrace = (
+  stack: Array<CallSite> | string,
+  config: StackTraceOptions,
+  testPath: ?Path,
+) => {
+  if (!Array.isArray(stack)) {
+    return formatLegacyStackTrace(stack, config, testPath);
+  }
+  //const lines = stack.split(/\n/);
+  const relativeTestPath = testPath
+    ? path.relative(config.rootDir, testPath)
+    : null;
+  const formatted = stack.map(callsite => {
+    const functionName = callsite.getFunctionName() || '<anonymous>';
+    const fileName = callsite.getFileName() || '';
+    let filePath = path.relative(config.rootDir, fileName);
+    // highlight paths from the current test file
+    if (
+      (config.testMatch &&
+        config.testMatch.length &&
+        micromatch(filePath, config.testMatch)) ||
+      filePath === relativeTestPath
+    ) {
+      filePath = chalk.reset.cyan(filePath);
+    }
+    const line = callsite.getLineNumber() || '0';
+    const column = callsite.getColumnNumber() || '0';
+    return (
+      STACK_INDENT +
+      STACK_TRACE_COLOR(`at ${functionName} (`) +
+      filePath +
+      STACK_TRACE_COLOR(`:${line}:${column})`)
+    );
+  });
+  return formatted.join('\n');
+/*
+  return lines
+    .map(trimPaths)
+    .map(formatPaths.bind(null, config, relativeTestPath))
+    .map(line => STACK_INDENT + line)
+    .join('\n');
+*/
 };
 
 const formatResultsErrors = (

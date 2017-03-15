@@ -9,6 +9,7 @@
  */
 'use strict';
 
+import type {TestStacktrace} from 'types/TestStacktrace';
 import type {SerializableError} from 'types/TestResult';
 import type {HasteImpl, WorkerMessage, WorkerCallback} from './types';
 
@@ -33,7 +34,7 @@ const formatError = (error: string | Error): SerializableError => {
       type: 'Error',
     };
   }
-  const stack = error.stack;
+  const stack: TestStacktrace = error.stack;
   return {
     message: error.message,
     stack: stack.message,

@@ -11,6 +11,7 @@
 
 import type {Config} from 'types/Config';
 import type {Global} from 'types/Global';
+import type {TestStacktrace} from 'types/TestStacktrace';
 import type {ModuleMocker} from 'jest-mock';
 
 const {formatStackTrace} = require('jest-message-util');
@@ -320,7 +321,7 @@ class FakeTimers {
 
   _checkFakeTimers() {
     if (this._global.setTimeout !== this._fakeTimerAPIs.setTimeout) {
-      const stack = new Error().stack;
+      const stack: TestStacktrace = new Error().stack;
       this._global.console.warn(
         `A function to advance timers was called but the timers API is not ` +
           `mocked with fake timers. Call \`jest.useFakeTimers()\` in this ` +

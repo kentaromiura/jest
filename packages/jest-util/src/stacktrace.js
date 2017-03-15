@@ -17,14 +17,28 @@ const toDiscard = (filename: string, index: number): boolean => {
   return index !== 0 && FILTER_NOISE.test(filename);
 };
 
+type TestStacktraceProps = {
+  description: string,
+  error: Error,
+  message: string,
+  stack: Array<CallSite>,
+};
+
 class TestStacktrace extends String {
-  message: string;
+  description: string;
   error: Error;
+  message: string;
   stack: Array<CallSite>;
-  constructor(message, error, stack) {
+  constructor({
+      description,
+      error,
+      message,
+      stack,
+  }: TestStacktraceProps) {
     super(message);
-    this.message = message;
+    this.description = description;
     this.error = error;
+    this.message = message;
     this.stack = stack;
   }
 }
@@ -41,10 +55,16 @@ const setPrepareStackTrace = (Error: Class<Error>) => {
       const column = callsite.getColumnNumber() || '0';
       return `at ${functionName} (${filename}:${line}:${column})`;
     });
+    const description = `${error.name}: ${error.message}`;
     const message = (
-      `${error.name}: ${error.message}\n${atArray.join('\n')}`
+      `${description}\n${atArray.join('\n')}`
     );
-    return new TestStacktrace(message, error, filteredStacktrace);
+    return new TestStacktrace({
+      description,
+      error,
+      stack: filteredStacktrace,
+      message,
+    });
   };
 };
 
